@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSO SaaS Dashboard - Elite Edition</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 p-6">
+  <div class="max-w-screen-xl mx-auto space-y-8">
+
+    <!-- HEADER -->
+    <header class="text-center">
+      <h1 class="text-4xl font-bold text-gray-800">Elite CSO SaaS Dashboard</h1>
+      <p class="text-gray-600">Strategic Visibility & Execution Power</p>
+    </header>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="flex flex-wrap justify-center space-x-2 mb-6">
+      <button onclick="showTab('global')" class="tab-btn px-4 py-2 bg-blue-600 text-white rounded-full" id="tab-global">Global</button>
+      <button onclick="showTab('pais')" class="tab-btn px-4 py-2 bg-white text-blue-700 border border-blue-600 rounded-full" id="tab-pais">Por País</button>
+      <button onclick="showTab('vendedor')" class="tab-btn px-4 py-2 bg-white text-blue-700 border border-blue-600 rounded-full" id="tab-vendedor">Por Vendedor</button>
+      <button onclick="showTab('forecast')" class="tab-btn px-4 py-2 bg-white text-blue-700 border border-blue-600 rounded-full" id="tab-forecast">Forecast</button>
+    </nav>
+
+    <!-- SECTIONS -->
+    <div id="sections"></div>
+  </div>
+
+  <script>
+    const tabs = ['global', 'pais', 'vendedor', 'forecast'];
+    const tabContent = {
+      global: `
+        <section>
+          <h2 class='text-2xl font-semibold text-gray-800 mb-4'>📊 KPIs Estratégicos Globales</h2>
+          <div class='grid grid-cols-1 md:grid-cols-4 gap-4'>
+            <div class='bg-white p-4 rounded-2xl shadow'><h3 class='text-md font-semibold text-gray-700'>Bookings YTD</h3><p class='text-2xl font-bold text-blue-700'>32M€</p><p class='text-sm text-gray-500'>MTD: 3.4M€ | QTD: 7.9M€</p></div>
+            <div class='bg-white p-4 rounded-2xl shadow'><h3 class='text-md font-semibold text-gray-700'>Achievement Rate</h3><p class='text-2xl font-bold text-green-600'>80%</p><p class='text-sm text-gray-500'>Goal: 40M€</p></div>
+            <div class='bg-white p-4 rounded-2xl shadow'><h3 class='text-md font-semibold text-gray-700'>Forecast EoY</h3><p class='text-2xl font-bold text-yellow-600'>38.5M€</p><p class='text-sm text-gray-500'>Gap: -1.5M€</p></div>
+            <div class='bg-white p-4 rounded-2xl shadow'><h3 class='text-md font-semibold text-gray-700'>Pipeline Total</h3><p class='text-2xl font-bold text-purple-600'>25M€</p><p class='text-sm text-gray-500'>Coverage: 2.2x</p></div>
+          </div>
+          <div class='grid grid-cols-1 md:grid-cols-3 gap-4 mt-6'>
+            <div class='bg-white p-4 rounded-2xl shadow'><h3 class='text-md font-semibold text-gray-700'>Conversion Rate</h3><p class='text-2xl font-bold text-blue-600'>18%</p></div>
+            <div class='bg-white p-4 rounded-2xl shadow'><h3 class='text-md font-semibold text-gray-700'>Sales Velocity</h3><p class='text-2xl font-bold text-green-600'>245k€/día</p></div>
+            <div class='bg-white p-4 rounded-2xl shadow'><h3 class='text-md font-semibold text-gray-700'>Avg. Sales Cycle</h3><p class='text-2xl font-bold text-gray-700'>54 días</p></div>
+          </div>
+        </section>
+      `,
+      pais: `
+        <section>
+          <h2 class='text-2xl font-semibold text-gray-800 mb-4'>🌍 Rendimiento por País</h2>
+          <div class='grid grid-cols-1 md:grid-cols-3 gap-6'>
+            <div class='bg-white p-6 rounded-2xl shadow'>
+              <h3 class='text-xl font-bold text-gray-700 mb-2'>🇬🇧 Reino Unido</h3>
+              <ul class='text-sm text-gray-600 space-y-1'>
+                <li>Bookings YTD: <strong>12.5M€</strong></li>
+                <li>Quota: 15M€ (83%)</li>
+                <li>Pipeline: 9M€ | Coverage: 2.4x</li>
+                <li>Conversion Rate: 21%</li>
+                <li>Sales Velocity: 98k€/día</li>
+                <li>Avg Sales Cycle: 49 días</li>
+              </ul>
+            </div>
+            <div class='bg-white p-6 rounded-2xl shadow'>
+              <h3 class='text-xl font-bold text-gray-700 mb-2'>🇫🇷 Francia</h3>
+              <ul class='text-sm text-gray-600 space-y-1'>
+                <li>Bookings YTD: <strong>11.8M€</strong></li>
+                <li>Quota: 14M€ (84%)</li>
+                <li>Pipeline: 8.5M€ | Coverage: 2.3x</li>
+                <li>Conversion Rate: 19%</li>
+                <li>Sales Velocity: 85k€/día</li>
+                <li>Avg Sales Cycle: 56 días</li>
+              </ul>
+            </div>
+            <div class='bg-white p-6 rounded-2xl shadow'>
+              <h3 class='text-xl font-bold text-gray-700 mb-2'>🇪🇸 España</h3>
+              <ul class='text-sm text-gray-600 space-y-1'>
+                <li>Bookings YTD: <strong>7.7M€</strong></li>
+                <li>Quota: 11M€ (70%)</li>
+                <li>Pipeline: 7.5M€ | Coverage: 2.1x</li>
+                <li>Conversion Rate: 14%</li>
+                <li>Sales Velocity: 62k€/día</li>
+                <li>Avg Sales Cycle: 60 días</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      `,
+      vendedor: `
+        <section>
+          <h2 class='text-2xl font-semibold text-gray-800 mb-4'>👤 Rendimiento por Vendedor</h2>
+          <p class='text-sm text-gray-500'>Tabla de rendimiento individual (ejemplo pendiente de datos)</p>
+        </section>
+      `,
+      forecast: `
+        <section>
+          <h2 class='text-2xl font-semibold text-gray-800 mb-4'>📅 Forecast</h2>
+          <p class='text-sm text-gray-500'>Distribución de forecast por trimestre y región (ejemplo pendiente de datos)</p>
+        </section>
+      `
+    };
+
+    function showTab(tab) {
+      tabs.forEach(id => {
+        const tabBtn = document.getElementById('tab-' + id);
+        if (tabBtn) {
+          tabBtn.classList.remove('bg-blue-600', 'text-white');
+          tabBtn.classList.add('bg-white', 'text-blue-700');
+        }
+      });
+      const activeBtn = document.getElementById('tab-' + tab);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-blue-700');
+        activeBtn.classList.add('bg-blue-600', 'text-white');
+      }
+      document.getElementById('sections').innerHTML = tabContent[tab] || '';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => showTab('global'));
+  </script>
+</body>
+</html>
